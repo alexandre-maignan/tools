@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let current = 0;
     let target = 0;
     let rafId = null;
-    const ease = 0.11;
+    const ease = 0.10;
     const scrollMult = 1;
 
     const clamp = (v, min, max) => Math.max(min, Math.min(v, max));
@@ -70,3 +70,4 @@ let current = 0;
 
 
     });
+
