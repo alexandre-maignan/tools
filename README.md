@@ -27,7 +27,7 @@ Pour activer le scroll fluide avec toutes les valeurs par défaut, il suffit de 
 
   initSmoothScroll({
     DEBUG: true,       // affiche les logs dans la console
-    ease: 0.1,        // vitesse du scroll
+    ease: 0.08,        // vitesse du scroll
     scrollMult: 1.2,   // intensité du scroll
     MOBILE_BREAKPOINT: 768 // désactive le scroll sur mobile
   });
