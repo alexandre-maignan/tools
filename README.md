@@ -1,13 +1,12 @@
 Version par défaut 
-
+-------------------------
 <script type="module">
   import initSmoothScroll from 'https://alexmaignan95-ai.github.io/tools/smooth-scroll.js';
 </script>
 
 
-
 Version avec paramètres
-
+-------------------------
 <script type="module">
   import initSmoothScroll from 'https://alexmaignan95-ai.github.io/tools/smooth-scroll.js';
 
