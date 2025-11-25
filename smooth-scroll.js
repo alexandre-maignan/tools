@@ -1,9 +1,10 @@
-// smoothScroll.js
+<script>
 /**
- * Smooth Scroll sans module — version exportable pour GitHub
+ * Smooth Scroll sans module — version intégrée HTML
  * Compatible avec les liens vers des ancres
+ * Les ancrages interrompent le scroll fluide en cours
  */
-export function initSmoothScroll(options = {}) {
+function initSmoothScroll(options = {}) {
     const SmoothConfig = {
         DEBUG: false,
         MOBILE_BREAKPOINT: 768,
@@ -11,7 +12,7 @@ export function initSmoothScroll(options = {}) {
         scrollMult: 1,
         stopThreshold: 0.1,
         minPageHeightRatio: 1.05,
-        offset: 0, // décalage pour la navbar
+        offset: 0, // décalage par défaut = 0
         ...options
     };
 
@@ -91,25 +92,35 @@ export function initSmoothScroll(options = {}) {
         window.__smooth_resize_timer = setTimeout(checkDevice, 120);
     });
 
-    // Liens vers des ancres internes
+    // --------------------------------------------------
+    // Gestion des liens vers des ancres internes
+    // --------------------------------------------------
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
             const targetEl = document.querySelector(targetId);
             if (targetEl) {
-                e.preventDefault();
+                e.preventDefault(); // empêche le jump natif
                 if (rafId) {
                     cancelAnimationFrame(rafId);
                     rafId = null;
                 }
-                current = target = window.scrollY;
+                current = target = window.scrollY; // reset positions pour le scroll
                 const topPos = targetEl.getBoundingClientRect().top + window.scrollY - SmoothConfig.offset;
                 window.scrollTo({ top: topPos, behavior: "smooth" });
             }
         });
     });
-
-    return { disable: disableSmooth };
 }
+
+// ➜ Activation avec offset = 0 par défaut
+initSmoothScroll({
+    DEBUG: false,
+    ease: 0.12,
+    scrollMult: 1.2,
+    offset: 0 // <-- tu peux mettre 100 ou autre ici si tu veux un décalage pour navbar
+});
+</script>
+
 
 
