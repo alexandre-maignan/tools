@@ -11,7 +11,7 @@ export function initSmoothScroll(options = {}) {
         scrollMult: 1,
         stopThreshold: 0.1,
         minPageHeightRatio: 1.05,
-        offset: 100, // décalage pour la navbar
+        offset: 0, // décalage pour la navbar
         ...options
     };
 
@@ -111,4 +111,5 @@ export function initSmoothScroll(options = {}) {
 
     return { disable: disableSmooth };
 }
+
 
