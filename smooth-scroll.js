@@ -20,12 +20,18 @@ window.SmoothScroll = (function () {
         const clamp = (v, min, max) => Math.max(min, Math.min(v, max));
         const log = (...args) => SmoothConfig.DEBUG && console.log('[smooth]', ...args);
 
+        /* -----------------------------------------
+            Update scroll-behavior
+        ------------------------------------------*/
         function updateScrollBehavior() {
             const behavior = window.innerWidth < SmoothConfig.MOBILE_BREAKPOINT ? "" : "auto";
             document.documentElement.style.scrollBehavior = behavior;
             document.body.style.scrollBehavior = behavior;
         }
 
+        /* -----------------------------------------
+            Enable / Disable
+        ------------------------------------------*/
         function enable() {
             if (enabled) return;
             enabled = true;
@@ -51,6 +57,9 @@ window.SmoothScroll = (function () {
             log("Smooth disabled");
         }
 
+        /* -----------------------------------------
+            Mouse wheel scroll
+        ------------------------------------------*/
         function onWheel(e) {
             if (e.ctrlKey) return;
 
@@ -66,6 +75,9 @@ window.SmoothScroll = (function () {
             if (!rafId) current = target = window.scrollY;
         }
 
+        /* -----------------------------------------
+            Animation
+        ------------------------------------------*/
         function render() {
             if (!enabled) return;
 
@@ -83,6 +95,9 @@ window.SmoothScroll = (function () {
             rafId = requestAnimationFrame(render);
         }
 
+        /* -----------------------------------------
+            Conditions device / page size
+        ------------------------------------------*/
         function checkState() {
             const isMobile = window.innerWidth < SmoothConfig.MOBILE_BREAKPOINT;
             const pageTooShort = document.documentElement.scrollHeight <= window.innerHeight * SmoothConfig.minPageHeightRatio;
@@ -95,6 +110,9 @@ window.SmoothScroll = (function () {
             enable();
         }
 
+        /* -----------------------------------------
+            Internal anchor links
+        ------------------------------------------*/
         function setupAnchors() {
             document.querySelectorAll('a[href^="#"]').forEach(a => {
                 a.addEventListener("click", e => {
@@ -114,6 +132,9 @@ window.SmoothScroll = (function () {
             });
         }
 
+        /* -----------------------------------------
+            Init
+        ------------------------------------------*/
         updateScrollBehavior();
         checkState();
         setupAnchors();
