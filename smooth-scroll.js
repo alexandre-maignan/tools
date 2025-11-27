@@ -18,6 +18,9 @@ export default function initSmoothScroll(options = {}) {
     const clamp = (v, min, max) => Math.max(min, Math.min(v, max));
     const log = (...args) => { if (SmoothConfig.DEBUG) console.log('[smooth]', ...args); };
 
+    // ------------------------------
+    // Forcer ou laisser scroll-behavior selon largeur
+    // ------------------------------
     function updateScrollBehavior() {
         if (window.innerWidth < SmoothConfig.MOBILE_BREAKPOINT) {
             document.documentElement.style.scrollBehavior = "";
@@ -28,6 +31,9 @@ export default function initSmoothScroll(options = {}) {
         }
     }
 
+    // ------------------------------
+    // Activation/désactivation du scroll fluide
+    // ------------------------------
     function enableSmooth() {
         if (smoothEnabled) return;
         smoothEnabled = true;
@@ -45,21 +51,18 @@ export default function initSmoothScroll(options = {}) {
         window.removeEventListener('scroll', onNativeScroll);
         if (rafId) cancelAnimationFrame(rafId);
         rafId = null;
-        log('Smooth disabled');
+        log('Smooth disabled (mobile ou page courte)');
     }
 
+    // ------------------------------
+    // Gestion du scroll par molette
+    // ------------------------------
     function onWheel(e) {
         if (e.ctrlKey) return;
         e.preventDefault();
-
-        const delta = e.deltaY;
-        const maxScroll = Math.max(
-            document.body.scrollHeight,
-            document.documentElement.scrollHeight
-        ) - window.innerHeight;
-
+        let delta = e.deltaY;
+        const maxScroll = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - window.innerHeight;
         target = clamp(target + delta * SmoothConfig.scrollMult, 0, maxScroll);
-
         if (!rafId) render();
     }
 
@@ -67,41 +70,42 @@ export default function initSmoothScroll(options = {}) {
         if (!rafId) target = current = window.scrollY;
     }
 
+    // ------------------------------
+    // Animation du scroll fluide
+    // ------------------------------
     function render() {
         if (!smoothEnabled) return;
-
         const diff = target - current;
         if (Math.abs(diff) < SmoothConfig.stopThreshold) {
             current = target;
             rafId = null;
             return;
         }
-
         current += diff * SmoothConfig.ease;
         window.scrollTo({ top: Math.round(current), behavior: "auto" });
         rafId = requestAnimationFrame(render);
     }
 
+    // ------------------------------
+    // Vérification du device / taille de page
+    // ------------------------------
     function checkDevice() {
-        const pageHeight = Math.max(
-            document.body.scrollHeight,
-            document.documentElement.scrollHeight
-        );
-
+        const pageHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
         if (pageHeight <= window.innerHeight * SmoothConfig.minPageHeightRatio) {
             disableSmooth();
             return false;
         }
-
         if (window.innerWidth < SmoothConfig.MOBILE_BREAKPOINT) {
             disableSmooth();
             return false;
         }
-
         enableSmooth();
         return true;
     }
 
+    // ------------------------------
+    // Initialisation
+    // ------------------------------
     updateScrollBehavior();
     checkDevice();
 
@@ -113,6 +117,9 @@ export default function initSmoothScroll(options = {}) {
         }, 120);
     });
 
+    // ------------------------------
+    // Gestion des liens vers des ancres internes
+    // ------------------------------
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
@@ -120,19 +127,13 @@ export default function initSmoothScroll(options = {}) {
             if (!targetEl) return;
 
             if (window.innerWidth < SmoothConfig.MOBILE_BREAKPOINT) {
-                return; // mobile → scroll CSS natif
+                return;
             }
 
             e.preventDefault();
-
-            if (rafId) {
-                cancelAnimationFrame(rafId);
-                rafId = null;
-            }
-
+            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
             current = target = window.scrollY;
             target = targetEl.getBoundingClientRect().top + window.scrollY - SmoothConfig.offset;
-
             if (!rafId) render();
         });
     });
