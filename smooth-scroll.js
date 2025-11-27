@@ -53,7 +53,11 @@ export default function initSmoothScroll(options = {}) {
         e.preventDefault();
 
         const delta = e.deltaY;
-        const maxScroll = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - window.innerHeight;
+        const maxScroll = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+        ) - window.innerHeight;
+
         target = clamp(target + delta * SmoothConfig.scrollMult, 0, maxScroll);
 
         if (!rafId) render();
@@ -79,12 +83,16 @@ export default function initSmoothScroll(options = {}) {
     }
 
     function checkDevice() {
-        const pageHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+        const pageHeight = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+        );
 
         if (pageHeight <= window.innerHeight * SmoothConfig.minPageHeightRatio) {
             disableSmooth();
             return false;
         }
+
         if (window.innerWidth < SmoothConfig.MOBILE_BREAKPOINT) {
             disableSmooth();
             return false;
@@ -112,11 +120,15 @@ export default function initSmoothScroll(options = {}) {
             if (!targetEl) return;
 
             if (window.innerWidth < SmoothConfig.MOBILE_BREAKPOINT) {
-                return;
+                return; // mobile → scroll CSS natif
             }
 
             e.preventDefault();
-            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
 
             current = target = window.scrollY;
             target = targetEl.getBoundingClientRect().top + window.scrollY - SmoothConfig.offset;
@@ -125,4 +137,3 @@ export default function initSmoothScroll(options = {}) {
         });
     });
 }
-
