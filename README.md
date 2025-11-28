@@ -20,22 +20,3 @@ initSmoothScroll({
 </script>
 
 ```
-
-### 2️⃣ Version avec paramètres
-
-
-```html
-<script type="module">
-import initSmoothScroll from "https://cdn.jsdelivr.net/gh/alexandre-maignan/tools/smooth-scroll.js";
-
-initSmoothScroll({
-    ease: 0.1,
-    scrollMult: 1,
-    offset: 0
-});
-</script>
-
-```
-
-
-
