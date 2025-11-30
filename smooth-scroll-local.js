@@ -1,3 +1,4 @@
+// smooth-scroll.js
 (function() {
     function initSmoothScroll(options = {}) {
         const SmoothConfig = {
@@ -161,6 +162,19 @@
         });
     }
 
+    // Expose globally pour pouvoir l'utiliser partout
+    window.initSmoothScroll = initSmoothScroll;
+
+    // Initialisation automatique avec tes options par défaut
+    initSmoothScroll({
+        DEBUG: false,
+        ease: 0.06,
+        scrollMult: 1.2
+    });
+})();
+
+
     // Expose globally
     window.initSmoothScroll = initSmoothScroll;
 })();
+
