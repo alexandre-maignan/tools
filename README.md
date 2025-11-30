@@ -1,44 +1,15 @@
-## 📌 Utilisation du Smooth Scroll
+## Utilisation du Smooth Scroll
 
-Le Smooth Scroll peut être utilisé de deux manières : **avec les valeurs par défaut** ou **avec des paramètres personnalisés**.
-
----
-
-### 1️⃣ Version site en ligne
-
-Pour activer le scroll fluide avec toutes les valeurs par défaut, il suffit de faire :
+Pour activer le scroll fluide , il suffit de copier coller ce code à la fin du body :
 
 ```html
-<script type="module">
-import initSmoothScroll from "https://cdn.jsdelivr.net/gh/alexandre-maignan/tools/smooth-scroll.js";
 
-initSmoothScroll({
-    ease: 0.1,             // vitesse du lissage du scroll (plus haut = plus rapide)
-    scrollMult: 1,         // intensité de la molette (1 = normal)
-
-    MOBILE_BREAKPOINT: 768,     // désactive le script sous 768px (mobile)
-    minPageHeightRatio: 1.05,   // désactive si page trop petite
-
-    DEBUG: false,               // active les logs console si besoin
-});
-</script>
-
-```
-
-
-
-
-### 1️⃣ Version site en local
-
-Pour activer le scroll fluide sur un site local :
-
-```html
-<script src="https://cdn.jsdelivr.net/gh/alexandre-maignan/tools/smooth-scroll-local.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/alexandre-maignan/smooth-scroll/smooth-scroll.js"></script>
 <script>
 
 initSmoothScroll({
-    ease: 0.1,             // vitesse du lissage du scroll (plus haut = plus rapide)
-    scrollMult: 1,         // intensité de la molette (1 = normal)
+    ease: 0.06,             // vitesse du lissage du scroll (plus haut = plus rapide)
+    scrollMult: 1.5,         // intensité de la molette (1 = normal)
 
     MOBILE_BREAKPOINT: 768,     // désactive le script sous 768px (mobile)
     minPageHeightRatio: 1.05,   // désactive si page trop petite
@@ -48,3 +19,5 @@ initSmoothScroll({
 </script>
 
 ```
+
+
